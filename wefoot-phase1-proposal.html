@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wefoot × Spain — Phase 1.1 Regional Validation</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  :root {
+    --black:   #0d0d0d;
+    --dark:    #2e2e2e;
+    --mid:     #5a5a5a;
+    --soft:    #8a8a8a;
+    --border:  #d8d8d8;
+    --light:   #f5f5f3;
+    --white:   #ffffff;
+    --green:   #1a6b3c;
+    --green-l: #eaf4ee;
+    --phase1:  #1a6b3c;
+    --phase2:  #0057a8;
+    --phase3:  #b84a00;
+  }
+
+  body {
+    font-family: 'Archivo', sans-serif;
+    background: var(--white);
+    color: var(--black);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 200;
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 60px;
+    height: 60px;
+  }
+  .nav-brand {
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--black);
+  }
+  .nav-brand span { color: var(--green); }
+  .nav-links { display: flex; list-style: none; gap: 36px; }
+  .nav-links a {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--soft);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--black); }
+
+  /* ── SLIDES ── */
+  .slide {
+    min-height: 100vh;
+    padding: 120px 60px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    border-bottom: 1px solid var(--border);
+  }
+  .slide-light { background: var(--light); }
+  .slide-num {
+    position: absolute;
+    bottom: 40px;
+    right: 60px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    color: var(--border);
+    text-transform: uppercase;
+  }
+
+  /* ── LABELS ── */
+  .label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--soft);
+    margin-bottom: 20px;
+  }
+  .label::before {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 1px;
+    background: var(--soft);
+  }
+
+  /* ── HEADINGS ── */
+  .h-lg {
+    font-size: clamp(40px, 5vw, 68px);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.025em;
+    color: var(--black);
+  }
+  .accent { color: var(--green); }
+
+  /* ── TEXT ── */
+  .body-md {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--mid);
+    font-weight: 300;
+  }
+
+  /* ── HELPERS ── */
+  .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+  .g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px; }
+  hr  { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+
+  /* ── CARDS ── */
+  .card {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 36px;
+  }
+  .card-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--soft);
+    margin-bottom: 16px;
+  }
+  .card h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--black);
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+  .card p {
+    font-size: 14px;
+    line-height: 1.75;
+    color: var(--mid);
+    font-weight: 300;
+  }
+
+  /* ── LIST ── */
+  .check-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .check-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--dark);
+    font-weight: 400;
+  }
+  .check-list li::before { content: '—'; color: var(--green); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+  .check-list.plain li::before { color: var(--soft); }
+  .check-list.blue  li::before { color: var(--phase2); }
+
+  /* ── MILESTONE BLOCK ── */
+  .milestone {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .milestone-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 28px;
+    background: var(--light);
+    border-bottom: 1px solid var(--border);
+  }
+  .milestone-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--black);
+    letter-spacing: -0.01em;
+  }
+  .milestone-time {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--green);
+    background: var(--green-l);
+    padding: 5px 12px;
+    border-radius: 2px;
+  }
+  .milestone-body {
+    padding: 24px 28px;
+  }
+  .milestone-body ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .milestone-body li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--mid);
+    line-height: 1.6;
+    font-weight: 400;
+  }
+  .milestone-body li::before { content: '·'; color: var(--green); font-weight: 700; flex-shrink: 0; font-size: 16px; line-height: 1.3; }
+
+  /* ── TIMELINE BAR ── */
+  .timeline-bar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 40px;
+  }
+  .tw {
+    padding: 20px 16px;
+    border-right: 1px solid var(--border);
+    text-align: center;
+  }
+  .tw:last-child { border-right: none; }
+  .tw-label { font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--soft); margin-bottom: 8px; }
+  .tw-content { font-size: 12px; color: var(--dark); line-height: 1.45; font-weight: 500; }
+  .tw.active { background: var(--green-l); }
+  .tw.active .tw-label { color: var(--green); }
+  .tw.active .tw-content { color: var(--green); }
+  .tw.mid { background: var(--light); }
+
+  /* ── PRODUCT TABLE ── */
+  .product-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-top: 20px;
+  }
+  .product-table thead tr { border-bottom: 2px solid var(--black); }
+  .product-table th {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--soft);
+    padding: 0 0 14px;
+    text-align: left;
+  }
+  .product-table th:not(:first-child) { padding-left: 20px; }
+  .product-table td {
+    padding: 16px 0;
+    color: var(--mid);
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.5;
+    font-weight: 400;
+  }
+  .product-table td:not(:first-child) { padding-left: 20px; }
+  .product-table td strong { color: var(--black); font-weight: 600; }
+  .product-table td em { color: var(--soft); font-style: normal; font-size: 12px; }
+  .product-table tr.optional td { color: var(--soft); }
+  .product-table tr.optional td strong { color: var(--soft); }
+
+  /* ── STAT ── */
+  .stat { border-top: 2px solid var(--black); padding-top: 20px; }
+  .stat-num { font-size: 52px; font-weight: 900; letter-spacing: -0.03em; color: var(--black); line-height: 1; display: block; margin-bottom: 8px; }
+  .stat-num.g { color: var(--green); }
+  .stat-label { font-size: 12px; color: var(--soft); font-weight: 400; line-height: 1.5; }
+
+  /* ── RESULT BOX ── */
+  .result { background: var(--light); border-radius: 4px; padding: 28px 32px; margin-top: 28px; }
+  .result h4 { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--soft); margin-bottom: 16px; }
+  .result ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .result li { font-size: 13px; color: var(--dark); display: flex; align-items: flex-start; gap: 10px; font-weight: 400; line-height: 1.55; }
+  .result li::before { content: '↗'; color: var(--green); font-weight: 700; flex-shrink: 0; }
+
+  /* ── HIGHLIGHT ── */
+  .highlight { background: var(--light); border-radius: 4px; padding: 28px 36px; margin-bottom: 32px; }
+  .highlight p { font-size: 17px; font-weight: 300; line-height: 1.7; color: var(--dark); }
+  .highlight strong { font-weight: 700; color: var(--black); }
+
+  /* ── BUDGET BOX ── */
+  .budget-box {
+    border: 1px solid var(--black);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 32px;
+  }
+  .budget-header {
+    background: var(--black);
+    padding: 20px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .budget-header span {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+  }
+  .budget-header strong {
+    font-size: 32px;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    color: var(--white);
+  }
+  .budget-body { padding: 28px 32px; }
+  .budget-body p { font-size: 14px; line-height: 1.75; color: var(--mid); font-weight: 300; }
+
+  /* ── TAG ── */
+  .phase-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 7px 14px;
+    border-radius: 2px;
+    margin-bottom: 28px;
+    background: var(--green-l);
+    color: var(--phase1);
+  }
+  .phase-tag .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--phase1); }
+
+  /* ── ADDRESS BLOCK ── */
+  .address-block {
+    background: var(--light);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 24px 28px;
+    margin-top: 24px;
+  }
+  .address-block .addr-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--soft);
+    margin-bottom: 12px;
+  }
+  .address-block p {
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--dark);
+    font-weight: 400;
+  }
+
+  /* ── COVER ── */
+  #cover {
+    min-height: 100vh;
+    justify-content: flex-end;
+    padding-bottom: 100px;
+    background: var(--white);
+  }
+  .cover-top {
+    position: absolute;
+    top: 120px; left: 60px; right: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .cover-badge { font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--soft); }
+  .cover-date  { font-size: 11px; color: var(--soft); letter-spacing: 0.05em; }
+  .cover-main h1 {
+    font-size: clamp(72px, 10vw, 130px);
+    font-weight: 900;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    color: var(--black);
+  }
+  .cover-main h1 em { font-style: normal; color: var(--soft); }
+  .cover-main h1 .sub { font-size: clamp(28px, 3.5vw, 48px); color: var(--green); display: block; margin-top: 12px; letter-spacing: -0.02em; }
+  .cover-rule { width: 100%; height: 1px; background: var(--border); margin: 36px 0; }
+  .cover-footer { display: flex; justify-content: space-between; align-items: flex-end; }
+  .cover-sub { max-width: 520px; font-size: 16px; line-height: 1.7; color: var(--mid); font-weight: 300; }
+  .cover-meta { display: flex; flex-direction: column; gap: 6px; text-align: right; }
+  .cover-meta strong { font-size: 13px; font-weight: 700; color: var(--black); }
+  .cover-meta span   { font-size: 12px; color: var(--soft); }
+
+  /* ── CLOSING ── */
+  #closing { background: var(--black); }
+  #closing .label { color: rgba(255,255,255,0.4); }
+  #closing .label::before { background: rgba(255,255,255,0.4); }
+  #closing .h-lg { color: var(--white); }
+  #closing .slide-num { color: rgba(255,255,255,0.15); }
+  #closing hr { border-color: rgba(255,255,255,0.12); }
+  .closing-grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 1px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 48px 0;
+  }
+  .cg-item { background: rgba(255,255,255,0.04); padding: 32px; text-align: center; }
+  .cg-big  { font-size: 48px; font-weight: 900; letter-spacing: -0.03em; color: var(--white); display: block; margin-bottom: 8px; }
+  .cg-label { font-size: 12px; color: rgba(255,255,255,0.4); letter-spacing: 0.06em; }
+  .cta { font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+  .cta strong { color: var(--white); }
+
+  /* ── DIVIDER SECTION ── */
+  .section-divider {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--soft);
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+    margin: 32px 0 20px;
+  }
+
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">Wefoot <span>×</span> Spain</div>
+  <ul class="nav-links">
+    <li><a href="#cover">Overview</a></li>
+    <li><a href="#scope">Scope</a></li>
+    <li><a href="#milestones">Milestones</a></li>
+    <li><a href="#requirements">Requirements</a></li>
+    <li><a href="#budget">Budget</a></li>
+    <li><a href="#closing">Next Step</a></li>
+  </ul>
+</nav>
+
+
+<!-- ════════════════════════════
+     01 — COVER
+════════════════════════════ -->
+<section class="slide" id="cover">
+  <div class="cover-top">
+    <div class="cover-badge">Market Validation Proposal</div>
+    <div class="cover-date">April 2025 · Prepared for Wefoot</div>
+  </div>
+
+  <div class="cover-main">
+    <h1>
+      Phase 1.1<br>
+      <em>Regional</em>
+      <span class="sub">Validation</span>
+    </h1>
+    <div class="cover-rule"></div>
+    <div class="cover-footer">
+      <p class="cover-sub">
+        A structured, field-level validation process to test Wefoot's product with real players and coaches across Spanish football environments — generating clear insights and a solid foundation for Phase 1.2.
+      </p>
+      <div class="cover-meta">
+        <strong>Submitted by</strong>
+        <span>Spanish Market Team</span>
+        <span style="margin-top:4px;">Bilbao, Spain · April 2025</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-num">01 / 07</div>
+</section>
+
+
+<!-- ════════════════════════════
+     02 — CONTEXT & OBJECTIVE
+════════════════════════════ -->
+<section class="slide slide-light">
+  <div class="label">Context & Objective</div>
+  <h2 class="h-lg">Starting on<br>the <span class="accent">pitch.</span></h2>
+  <hr>
+
+  <div class="g2">
+    <div>
+      <div class="highlight">
+        <p>Following our recent exchanges, this proposal outlines the structure, scope and budget for <strong>Phase 1.1 of our collaboration</strong> — a focused regional validation before moving into a broader retail approach.</p>
+      </div>
+      <p class="body-md">
+        The goal is not to generate theoretical research. It is to put the product in front of real players and coaches, collect honest and structured feedback under real conditions, and build a foundation that makes Phase 1.2 — the retail approach — meaningfully stronger.
+      </p>
+    </div>
+
+    <div>
+      <div class="card-label">What This Phase Delivers</div>
+      <ul class="check-list" style="margin-top:12px;">
+        <li>Real usage data from selected players across training and match conditions</li>
+        <li>Structured before/after comparison across comfort, grip, and performance</li>
+        <li>Direct input from 2–3 coaches on professional perception and fit</li>
+        <li>Market signals: purchase intent, price perception, switching likelihood</li>
+        <li>A validated foundation for the retail and go-to-market approach in Phase 1.2</li>
+      </ul>
+
+      <div class="result">
+        <h4>Phase Structure — Reminder</h4>
+        <ul>
+          <li><strong>Phase 1.1</strong> — Regional Validation (this proposal)</li>
+          <li><strong>Phase 1.2</strong> — Market Validation / Retail Approach (to be defined based on Phase 1.1 results)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-num">02 / 07</div>
+</section>
+
+
+<!-- ════════════════════════════
+     03 — SCOPE
+════════════════════════════ -->
+<section class="slide" id="scope">
+  <div class="label">Scope</div>
+  <h2 class="h-lg">What we<br>will <span class="accent">validate.</span></h2>
+  <hr>
+
+  <div class="g3" style="margin-bottom:40px;">
+    <div class="card">
+      <div class="card-label">User Testing</div>
+      <h3>14–18 Participants</h3>
+      <p>Selected from professional and semi-professional environments across Spanish leagues. Structured around a core group for depth and an extended group to validate patterns.</p>
+      <ul class="check-list plain" style="margin-top:16px; font-size:13px;">
+        <li style="color:var(--mid);"><strong style="color:var(--dark);">Core (10–12):</strong> 1–2 full real-use sessions each</li>
+        <li style="color:var(--mid);"><strong style="color:var(--dark);">Extended (4–6):</strong> at least one structured session each</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-label">Evaluation Framework</div>
+      <h3>3 Core Dimensions</h3>
+      <p>Each participant assessed before first use (baseline) and after each session (post-use comparison).</p>
+      <ul class="check-list plain" style="margin-top:16px; font-size:13px;">
+        <li style="color:var(--mid);">Comfort — fit, feel, post-session perception</li>
+        <li style="color:var(--mid);">Stability & grip — on-pitch confidence</li>
+        <li style="color:var(--mid);">Overall performance vs current product</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-label">Expert Input</div>
+      <h3>2–3 Coaches</h3>
+      <p>Technical staff embedded in the testing environments. Short structured conversations — not surveys — focused on professional perception, observed player reactions, and fit within training methodology.</p>
+    </div>
+  </div>
+
+  <div class="section-divider">Market Signals — Collected Post-Testing</div>
+
+  <div class="g3">
+    <div>
+      <div class="card-label">Purchase Intent</div>
+      <p class="body-md" style="font-size:14px;">Would participants buy the product? At what price range? Collected via structured post-use question, not open-ended.</p>
+    </div>
+    <div>
+      <div class="card-label">Perceived Value</div>
+      <p class="body-md" style="font-size:14px;">How does Wefoot compare to what participants currently use? What would make them switch permanently?</p>
+    </div>
+    <div>
+      <div class="card-label">Recommendation Likelihood</div>
+      <p class="body-md" style="font-size:14px;">Would they recommend to teammates or other coaches? This is the clearest early signal for organic adoption potential.</p>
+    </div>
+  </div>
+
+  <div class="slide-num">03 / 07</div>
+</section>
+
+
+<!-- ════════════════════════════
+     04 — MILESTONES
+════════════════════════════ -->
+<section class="slide slide-light" id="milestones">
+  <div class="label">Milestones</div>
+  <h2 class="h-lg">Four steps.<br><span class="accent">Seven weeks.</span></h2>
+  <hr>
+
+  <div class="milestone">
+    <div class="milestone-header">
+      <div class="milestone-title">Milestone 1 — Setup & Test Design</div>
+      <div class="milestone-time">Week 1–2</div>
+    </div>
+    <div class="milestone-body">
+      <ul>
+        <li>Selection and confirmation of participants and testing environments</li>
+        <li>Definition of the testing framework: what we validate, how feedback is collected, baseline and post-use question structure</li>
+        <li>Coordination of product distribution once shipment is received</li>
+        <li>Alignment call with Wefoot to confirm scope and any final adjustments</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="milestone">
+    <div class="milestone-header">
+      <div class="milestone-title">Milestone 2 — Testing Execution</div>
+      <div class="milestone-time">Week 3–5</div>
+    </div>
+    <div class="milestone-body">
+      <ul>
+        <li>Product distributed to all participants</li>
+        <li>Testing sessions carried out across training sessions and match conditions</li>
+        <li>Baseline inputs and post-use feedback collected in structured format after each session</li>
+        <li>Ongoing field observations documented throughout</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="milestone">
+    <div class="milestone-header">
+      <div class="milestone-title">Milestone 3 — Analysis & Insight Consolidation</div>
+      <div class="milestone-time">Week 6</div>
+    </div>
+    <div class="milestone-body">
+      <ul>
+        <li>All feedback structured and analysed across the three evaluation dimensions</li>
+        <li>Key patterns identified: what works, what doesn't, what stands out</li>
+        <li>Baseline vs post-use comparison completed for all participants</li>
+        <li>Draft conclusions and recommendations prepared for the final report</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="milestone">
+    <div class="milestone-header">
+      <div class="milestone-title">Milestone 4 — Final Report & Joint Review</div>
+      <div class="milestone-time">Week 7</div>
+    </div>
+    <div class="milestone-body">
+      <ul>
+        <li>Final validation report delivered to Wefoot</li>
+        <li>Joint session to review results, key learnings and field conclusions</li>
+        <li>Definition of next steps and structure for Phase 1.2</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="timeline-bar" style="margin-top:32px;">
+    <div class="tw active"><div class="tw-label">Week 1–2</div><div class="tw-content">Setup &amp; Design</div></div>
+    <div class="tw mid"><div class="tw-label">Week 3</div><div class="tw-content">Testing begins</div></div>
+    <div class="tw mid"><div class="tw-label">Week 4</div><div class="tw-content">Testing</div></div>
+    <div class="tw mid"><div class="tw-label">Week 5</div><div class="tw-content">Testing ends</div></div>
+    <div class="tw"><div class="tw-label">Week 6</div><div class="tw-content">Analysis</div></div>
+    <div class="tw"><div class="tw-label">Week 7</div><div class="tw-content">Report &amp; Review</div></div>
+    <div class="tw" style="background:var(--green-l);"><div class="tw-label" style="color:var(--green);">After</div><div class="tw-content" style="color:var(--green);">Phase 1.2</div></div>
+  </div>
+
+  <div class="slide-num">04 / 07</div>
+</section>
+
+
+<!-- ════════════════════════════
+     05 — REQUIREMENTS
+════════════════════════════ -->
+<section class="slide" id="requirements">
+  <div class="label">What We Need from Wefoot</div>
+  <h2 class="h-lg">Product &<br><span class="accent">logistics.</span></h2>
+  <hr>
+
+  <div class="g2">
+    <div>
+      <div class="card-label">Product Units</div>
+      <p class="body-md" style="margin-bottom:24px;">
+        The following selection allows for consistent testing, model comparison, and proper rotation across sessions. We are open to your recommendations if you believe any adjustments would better serve the validation goals.
+      </p>
+
+      <table class="product-table">
+        <thead>
+          <tr>
+            <th>Model</th>
+            <th>Qty</th>
+            <th>Size split</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Wefoot Air Grip 1.16 Crew Socks</strong></td>
+            <td>10 pairs</td>
+            <td>70% L · 30% M</td>
+          </tr>
+          <tr>
+            <td><strong>Double Non-Slip Plus Lite Crew Socks</strong></td>
+            <td>8 pairs</td>
+            <td>70% L · 30% M</td>
+          </tr>
+          <tr>
+            <td><strong>Double Non-Slip Soccer Stockings</strong></td>
+            <td>8 pairs</td>
+            <td>70% L · 30% M</td>
+          </tr>
+          <tr class="optional">
+            <td><strong>Tennis models</strong> <em>— optional / exploratory</em></td>
+            <td>3–4 pairs</td>
+            <td>Per your recommendation</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p style="font-size:12px; color:var(--soft); margin-top:12px; line-height:1.6;">
+        Optional tennis models included as a lighter exploratory add-on, only if Wefoot sees value in testing additional sport contexts alongside the main football focus.
+      </p>
+    </div>
+
+    <div>
+      <div class="card-label">Shipment Details</div>
+      <p class="body-md" style="margin-bottom:4px;">
+        As discussed, Wefoot will ship directly to Spain via UPS. Delivery details below.
+      </p>
+
+      <div class="address-block">
+        <div class="addr-label">Delivery Address</div>
+        <p>
+          Paseo Uribitarte nº6, First Floor<br>
+          48001 Bilbao, Spain<br><br>
+          <strong>Contact:</strong> Nicolas Martinez<br>
+          <strong>Phone:</strong> +34 688 829 321
+        </p>
+      </div>
+
+      <div class="result" style="margin-top:20px;">
+        <h4>Additional Requirements</h4>
+        <ul>
+          <li>Technical reference material in English — sizing guide, care instructions, product notes</li>
+          <li>Brief kick-off call once product is received to confirm setup and timeline</li>
+          <li>One joint review session at the end of Week 7 (remote or in-person)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-num">05 / 07</div>
+</section>
+
+
+<!-- ════════════════════════════
+     06 — BUDGET
+════════════════════════════ -->
+<section class="slide slide-light" id="budget">
+  <div class="label">Budget</div>
+  <h2 class="h-lg">Cost of<br><span class="accent">execution.</span></h2>
+  <hr>
+
+  <div class="g2">
+    <div>
+      <p class="body-md" style="margin-bottom:32px;">
+        The budget below reflects the full operational cost of running a structured, credible validation process — from test design and participant coordination through to field sessions, analysis, and the final report.
+      </p>
+
+      <div class="budget-box">
+        <div class="budget-header">
+          <span>Phase 1.1 — Total</span>
+          <strong>€1,750</strong>
+        </div>
+        <div class="budget-body">
+          <p>This covers: testing framework design, participant coordination, field session attendance, travel within the region, structured feedback collection, analysis and insight consolidation, and the final validation report.</p>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card-label">What This Covers</div>
+      <ul class="check-list" style="margin-top:12px;">
+        <li>Test design and framework definition — structured questions, baseline format, post-use comparison</li>
+        <li>Participant recruitment and coordination across clubs and sessions</li>
+        <li>Field session attendance and on-site facilitation (estimated 4–6 sessions)</li>
+        <li>Regional travel throughout the testing phase</li>
+        <li>Coach conversations and expert input collection</li>
+        <li>Full feedback consolidation, pattern analysis, before/after comparison</li>
+        <li>Final validation report — formatted and ready to share internally</li>
+        <li>Joint review session preparation and facilitation</li>
+      </ul>
+
+      <div class="result" style="margin-top:24px;">
+        <h4>Note on Scope</h4>
+        <ul>
+          <li>This is a regional, focused validation — not a national study</li>
+          <li>Budget reflects real execution costs, not a service retainer</li>
+          <li>Phase 1.2 budget to be defined based on Phase 1.1 results and agreed next steps</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-num">06 / 07</div>
+</section>
+
+
+<!-- ════════════════════════════
+     07 — CLOSING
+════════════════════════════ -->
+<section class="slide" id="closing">
+  <div class="label">Next Step</div>
+  <h2 class="h-lg" style="color:white;">Ready to<br>kick off.</h2>
+  <hr>
+
+  <p style="font-size:17px; font-weight:300; line-height:1.7; color:rgba(255,255,255,0.6); max-width:620px; margin-bottom:48px;">
+    We are happy to discuss any aspect of this proposal and adjust details if needed. Once aligned, the process can begin as soon as the product shipment is confirmed.
+  </p>
+
+  <div class="closing-grid">
+    <div class="cg-item">
+      <span class="cg-big">7</span>
+      <span class="cg-label">weeks to full validation report</span>
+    </div>
+    <div class="cg-item">
+      <span class="cg-big">18</span>
+      <span class="cg-label">real players on the pitch</span>
+    </div>
+    <div class="cg-item">
+      <span class="cg-big">4</span>
+      <span class="cg-label">structured milestones</span>
+    </div>
+  </div>
+
+  <div class="cta">
+    Suggested next step: <strong>confirm shipment details and schedule a brief kick-off call</strong> to align on timeline and any final adjustments.
+  </div>
+
+  <div class="slide-num">07 / 07</div>
+</section>
+
+
+</body>
+</html>
